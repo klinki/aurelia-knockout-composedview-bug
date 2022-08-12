@@ -1,0 +1,30 @@
+<template>
+  <div knockout>
+    <h1>Test component</h1>
+    <p>
+      Problem happens when composed view changes rapidly.
+      In such a case, instead of replacing old view with new one, multiple views are visible at once.
+      It seems some kind of race condition occurs.
+      </p>
+<p>
+      Try it by quickly clicking on B and C. Or double clicking on B/C.
+      On initial load, it should show something like: Tab B, Tab C or Tab B, Tab B.
+      This case happens only when composedView changes before the .html template loads.
+    </p>
+    <p>
+      The same bug can be also cause programatically, try using Rapidly change tabs. Programatically it can be
+       caused even if .html templates are fully loaded.
+    </p>
+    <a data-bind="click: rapidlyChangeTabs">Rapidly change tabs</a>
+
+    <ul class="nav nav-tabs nav-justified" data-bind="foreach: tabs">
+      <li data-bind="css: {'active':$parent.isActiveTab(text) }">
+        <a href="#" class="nounderline" data-bind="click:clickAction"><span data-bind="text:text"></span></a>&nbsp;
+      </li>
+    </ul>
+
+    <div class="container" data-bind="compose: composedView">
+      <!-- Here will be displayed one of the subViews -->
+    </div>
+  </div>
+</template>
